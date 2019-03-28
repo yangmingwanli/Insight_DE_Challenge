@@ -62,8 +62,8 @@ def combine_results(catlog,sale):
 # In[5]:
 
 
-catlog = read_catlog('products.csv')
-sale = read_sales_record('order_products.csv')
+catlog = read_catlog('../input/products.csv')
+sale = read_sales_record('../input/order_products.csv')
 result = combine_results(catlog,sale)
 
 # write to report.csv file.
