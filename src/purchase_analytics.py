@@ -1,15 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
 
 # import csv from standard Python library
 import csv
-
-
-# In[2]:
-
 
 # read products_fn csv to dictionary (catlog) of {product_id:department_id} as look up table for later use.
 def read_catlog(products_fn):
@@ -18,10 +12,6 @@ def read_catlog(products_fn):
     for row in reader:
         catlog[int(row['product_id'])] = int(row['department_id'])
     return catlog
-
-
-# In[3]:
-
 
 # read order_products.csv to dictionary (sale) of {product_id:[number_of_orders,number_of_first_orders]}
 def read_sales_record(order_products_fn):
@@ -41,10 +31,6 @@ def read_sales_record(order_products_fn):
             sale[int(row['product_id'])] = [pts + 1,pns]
     return sale
 
-
-# In[4]:
-
-
 # combine catlog and sale record to dictionary (result) of {department_id:[number_of_orders,number_of_first_orders]}
 # sum up number_of_orders,number_of_first_orders for all product_id belonging to each department_id.
 def combine_results(catlog,sale):
@@ -58,23 +44,16 @@ def combine_results(catlog,sale):
         result[did]=[dts+pts,dns+pns]
     return result
 
-
-# In[5]:
-
-
 catlog = read_catlog('../input/products.csv')
 sale = read_sales_record('../input/order_products.csv')
 result = combine_results(catlog,sale)
 
 # write to report.csv file.
 header = ['department_id','number_of_orders','number_of_first_orders','percentage']
-with open('report.csv','w+') as f:
+with open('../output/report.csv','w+') as f:
     writer = csv.writer(f)
     # write the header row first
     writer.writerow(header)
     # write result to csv in sorted key (department_id) order, add the percentage column rounded to 2 decimal.
     for key in sorted(result.keys()):
         writer.writerow([key, result[key][0],result[key][1],round(result[key][1]/result[key][0],2)])
-
-
-# In[ ]:
